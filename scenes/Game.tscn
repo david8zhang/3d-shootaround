@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://ux8jn1dagljn"]
+
+[ext_resource type="Script" uid="uid://lgss7duqs2lr" path="res://scripts/Game.gd" id="1_ibkli"]
+[ext_resource type="PackedScene" uid="uid://bi4nq64gl142k" path="res://prefabs/Player.tscn" id="2_qbsmt"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_qa2gp"]
+size = Vector3(20, 0.5, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cpr0p"]
+size = Vector3(20, 1, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qbsmt"]
+size = Vector3(1, 10, 20)
+
+[node name="Game" type="Node3D" unique_id=2144657614]
+script = ExtResource("1_ibkli")
+
+[node name="Player" parent="." unique_id=557879935 instance=ExtResource("2_qbsmt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1727604480]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1538314115]
+mesh = SubResource("BoxMesh_qa2gp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1708190088]
+shape = SubResource("BoxShape3D_cpr0p")
+
+[node name="LeftWall" type="StaticBody3D" parent="." unique_id=834289613]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 4, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftWall" unique_id=882944237]
+shape = SubResource("BoxShape3D_qbsmt")
+
+[node name="BackWall" type="StaticBody3D" parent="." unique_id=2019323482]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 4, 10)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BackWall" unique_id=210576276]
+shape = SubResource("BoxShape3D_qbsmt")
+
+[node name="FrontWall" type="StaticBody3D" parent="." unique_id=1842121714]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 4, -10)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FrontWall" unique_id=943100210]
+shape = SubResource("BoxShape3D_qbsmt")
+
+[node name="RightWall" type="StaticBody3D" parent="." unique_id=44599371]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 4, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightWall" unique_id=1914499122]
+shape = SubResource("BoxShape3D_qbsmt")
+
+[node name="Light3D" type="DirectionalLight3D" parent="." unique_id=1785221242]
+transform = Transform3D(1, 0, 0, 0, -0.002735287, 0.9999962, 0, -0.9999962, -0.002735287, 0, 10, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=412404626]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.50000006, 0, -0.50000006, 0.8660254, 0, 7, 7.5)
+fov = 50.0
