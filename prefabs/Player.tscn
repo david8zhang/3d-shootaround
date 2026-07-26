@@ -1,19 +1,76 @@
 [gd_scene format=3 uid="uid://bi4nq64gl142k"]
 
 [ext_resource type="Script" uid="uid://46rerfjmgdtx" path="res://scripts/Player.gd" id="1_fjjwp"]
-[ext_resource type="PackedScene" uid="uid://djwfobo86qxbi" path="res://assets/player.glb" id="2_glu7e"]
+[ext_resource type="PackedScene" uid="uid://cge4yxssmukjf" path="res://prefabs/Model.tscn" id="2_glu7e"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_glu7e"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ay6yh"]
+animation = &"Sprint"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ay6yh"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_p3xyx"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "velocity.length() > 0.2"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_glu7e"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "velocity.length() <= 0.2"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_glu7e"]
+states/Idle/node = SubResource("AnimationNodeAnimation_glu7e")
+states/Idle/position = Vector2(419, 100)
+states/Sprint/node = SubResource("AnimationNodeAnimation_ay6yh")
+states/Sprint/position = Vector2(610, 100)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_ay6yh"), "Idle", "Sprint", SubResource("AnimationNodeStateMachineTransition_p3xyx"), "Sprint", "Idle", SubResource("AnimationNodeStateMachineTransition_glu7e")]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6pmnr"]
 radius = 0.45361328
 height = 1.8343658
 
-[node name="Player" type="CharacterBody3D" unique_id=557879935]
+[node name="Player" type="CharacterBody3D" unique_id=557879935 node_paths=PackedStringArray("model", "pivot")]
 script = ExtResource("1_fjjwp")
+model = NodePath("Pivot/Model")
+pivot = NodePath("Pivot")
 
 [node name="Pivot" type="Node3D" parent="." unique_id=2016952178]
 
 [node name="Model" parent="Pivot" unique_id=457717208 instance=ExtResource("2_glu7e")]
 
+[node name="GeneralSkeleton" parent="Pivot/Model/Armature" parent_id_path=PackedInt32Array(457717208, 323486404) index="0" unique_id=903711354]
+bones/1/position = Vector3(0.0053169443, 0.08649441, 0.87717235)
+bones/1/rotation = Quaternion(0.7559312, -0.08829516, -0.075255014, 0.6442892)
+bones/3/rotation = Quaternion(0.015377738, 0.00012408519, 0.00024849395, 0.9998818)
+bones/4/rotation = Quaternion(0.09233495, 0.0003125522, 0.00025737812, 0.995728)
+bones/5/rotation = Quaternion(0.01847864, -0.00023679726, -0.00024236148, 0.99982923)
+bones/6/rotation = Quaternion(-0.0010596141, 0.096013024, -0.0027143578, 0.9953759)
+bones/7/rotation = Quaternion(-0.59950304, -0.3734596, -0.3942046, 0.58798534)
+bones/8/rotation = Quaternion(-0.28649405, 0.6735249, -0.4958253, 0.4673786)
+bones/9/rotation = Quaternion(0.2803043, 0.042883392, -0.0048903916, 0.9589403)
+bones/31/rotation = Quaternion(-0.6356148, 0.3104901, 0.32959184, 0.62526715)
+bones/32/rotation = Quaternion(-0.29421002, -0.6806532, 0.46932727, 0.4794619)
+bones/33/rotation = Quaternion(0.36726227, -0.1536894, 0.061670434, 0.9152567)
+bones/55/rotation = Quaternion(0.96390235, 0.110388584, -0.013610586, 0.24191219)
+bones/56/rotation = Quaternion(0.1848538, -0.112100944, 0.021219429, 0.97612107)
+bones/57/rotation = Quaternion(-0.49533692, 0.022376541, 0.09231861, 0.8634917)
+bones/60/rotation = Quaternion(0.9932611, -0.114454344, 0.01411189, 0.0115565285)
+bones/61/rotation = Quaternion(0.1146421, 0.35841048, -0.04440997, 0.9254334)
+bones/62/rotation = Quaternion(-0.5777094, -0.049669154, -0.16396312, 0.7980608)
+
+[node name="AnimationTree" parent="Pivot/Model" index="1" unique_id=831741758]
+tree_root = SubResource("AnimationNodeStateMachine_glu7e")
+advance_expression_base_node = NodePath("../../..")
+
+[node name="AnimationPlayer" parent="Pivot/Model" index="2" unique_id=81622949]
+autoplay = &""
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1810325031]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9358444, 0)
 shape = SubResource("CapsuleShape3D_6pmnr")
+
+[editable path="Pivot/Model"]

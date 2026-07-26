@@ -1,9 +1,13 @@
 extends CharacterBody3D
 
+@export var model: Model
+@export var pivot: Node3D
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
+func _ready():
+	pass
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -14,6 +18,7 @@ func _physics_process(delta: float) -> void:
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	pivot.look_at(global_position - direction, Vector3.UP)
 	if direction:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
