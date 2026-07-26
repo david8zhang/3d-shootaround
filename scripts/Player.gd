@@ -1,6 +1,4 @@
 extends CharacterBody3D
-
-@export var model: Model
 @export var pivot: Node3D
 
 const SPEED = 5.0
